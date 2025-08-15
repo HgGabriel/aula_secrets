@@ -20,7 +20,11 @@ jobs:
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
 
-      # Instalar o Docker e Docker Compose
+      - name: Remover versões antigas de containerd
+        run: |
+          sudo apt-get remove -y containerd
+          sudo apt-get autoremove -y
+
       - name: Instalar Docker e Docker Compose
         run: |
           sudo apt-get update
