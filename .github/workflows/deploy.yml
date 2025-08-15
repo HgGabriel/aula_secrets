@@ -19,7 +19,12 @@ jobs:
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-      
+          
+      - name: Install Docker Compose V2
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker-compose-plugin
+          
       - name: Subir banco de dados com Docker-Compose
         run: docker-compose up -d
       
