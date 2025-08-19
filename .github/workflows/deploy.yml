@@ -22,10 +22,18 @@ jobs:
 
       - name: Remover versões antigas de containerd
         run: |
-          sudo apt-get purge -y containerd
+          sudo apt-get purge -y containerd containerd.io
           sudo apt-get autoremove -y
+          sudo apt-get clean
           sudo apt-mark unhold containerd.io
           sudo apt-mark unhold docker.io
+
+      - name: Liberar pacotes mantidos
+        run: |
+          sudo apt-mark showhold
+          sudo apt-mark unhold containerd.io
+          sudo apt-mark unhold docker.io
+          sudo apt-get update
 
       - name: Instalar Docker e Docker Compose
         run: |
