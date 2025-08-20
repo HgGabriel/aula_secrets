@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout do código
         uses: actions/checkout@v3
-      
+
       - name: Criar arquivo de variáveis de ambiente
         run: |
           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
@@ -20,25 +20,11 @@ jobs:
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
 
-      - name: Remover versões antigas de containerd
+      - name: Configurar o Docker
+        uses: docker/setup-docker@v3
+        
+      - name: Instalar Docker Compose
         run: |
-          sudo apt-get purge -y containerd containerd.io
-          sudo apt-get autoremove -y
-          sudo apt-get clean
-          sudo apt-mark unhold containerd.io
-          sudo apt-mark unhold docker.io
-
-      - name: Liberar pacotes mantidos
-        run: |
-          sudo apt-mark showhold
-          sudo apt-mark unhold containerd.io
-          sudo apt-mark unhold docker.io
-          sudo apt-get update
-
-      - name: Instalar Docker e Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
           sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
 
