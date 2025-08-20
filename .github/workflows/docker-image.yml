@@ -25,6 +25,3 @@ jobs:
       
       - name: Instalar dependências
         run: npm install
-      
-      - name: Executar aplicação
-        run: node app.js
